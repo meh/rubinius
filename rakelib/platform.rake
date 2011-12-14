@@ -567,6 +567,11 @@ file 'runtime/platform.conf' => deps do |task|
       zlib_constants.each { |c| cg.const c, "%s", "(char *)" }
     end.write_constants(f)
 
+    FFI::Generators::Constants.new 'rbx.platform.judy' do |cg|
+      cg.include_dir 'vendor/judy/src' if BUILD_CONFIG[:vendor_judy]
+      cg.include 'Judy.h'
+    end.write_constants(f)
+
     unless BUILD_CONFIG[:windows]
       FFI::Generators::Constants.new 'rbx.platform.dlopen' do |cg|
         cg.include 'dlfcn.h'

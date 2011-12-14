@@ -130,6 +130,7 @@ namespace :build do
                      kernel:build
                      build:ffi:preprocessor
                      build:zlib
+                     build:judy
                      extensions
                    ]
 
@@ -162,6 +163,16 @@ namespace :build do
     end
   else
     task :zlib
+  end
+
+  if Rubinius::BUILD_CONFIG[:vendor_judy]
+    task :judy => ['lib/judy', VM_EXE] do
+      FileList["vendor/judy/src/obj/.libs/libJudy.*"].each do |lib|
+        cp lib, 'lib/judy/'
+      end
+    end
+  else
+    task :judy
   end
 end
 
@@ -323,7 +334,9 @@ namespace :vm do
       VM_EXE,
       'vm/.deps',
       'lib/zlib/*',
-      'lib/zlib'
+      'lib/zlib',
+      'lib/judy/*',
+      'lib/judy'
     ].exclude("vm/gen/config.h")
 
     files.each do |filename|

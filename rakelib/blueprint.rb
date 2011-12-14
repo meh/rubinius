@@ -202,7 +202,21 @@ Daedalus.blueprint do |i|
     end
   end
 
+  if Rubinius::BUILD_CONFIG[:vendor_judy]
+    judy = i.external_lib "vendor/judy" do |l|
+      l.cflags = ["-Ivendor/judy/src"]
+      l.objects = [l.file("judy/src/obj/.libs/libJudy.a")]
+      l.to_build do |x|
+        unless File.exists?("Makefile")
+          x.command "sh -c ./configure"
+        end
+        x.command make
+      end
+    end
+  end
+
   gcc.add_library zlib if Rubinius::BUILD_CONFIG[:vendor_zlib]
+  gcc.add_library judy if Rubinius::BUILD_CONFIG[:vendor_judy]
   gcc.add_library udis
   gcc.add_library ffi
   gcc.add_library gdtoa
@@ -229,6 +243,7 @@ Daedalus.blueprint do |i|
   end
 
   files << zlib if Rubinius::BUILD_CONFIG[:vendor_zlib]
+  files << judy if Rubinius::BUILD_CONFIG[:vendor_judy]
   files << udis
   files << ffi
   files << gdtoa

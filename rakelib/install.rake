@@ -122,6 +122,13 @@ namespace :install do
         end
       end
 
+      if Rubinius::BUILD_CONFIG[:vendor_judy]
+        # Install the judy library files
+        FileList["lib/judy/*"].each do |name|
+          install_file name, /^lib/, BUILD_CONFIG[:lib_path]
+        end
+      end
+
       # Install the documentation site
       FileList['lib/rubinius/documentation/**/*'].each do |name|
         install_file name, /^lib/, BUILD_CONFIG[:lib_path]

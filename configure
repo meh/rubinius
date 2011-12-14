@@ -108,6 +108,7 @@ class Configure
     # Library configuration
     @rb_readline = false
     @vendor_zlib = false
+    @vendor_judy = false
     @libyaml = false
 
     # Essential settings (modify these for creating releases)
@@ -322,6 +323,7 @@ class Configure
     feature "C-readline", true
     feature "ruby-readline", false
     feature "vendor-zlib", !!@windows
+    feature "vendor-judy", !!@windows
     feature "alloc-tracking", false
 
     o.doc "\n Help!"
@@ -973,6 +975,7 @@ int main() { return tgetnum(""); }
     end
 
     @vendor_zlib = true if @features["vendor-zlib"]
+    @vendor_judy = true if @features["vendor-judy"]
   end
 
   def process
@@ -1112,6 +1115,7 @@ module Rubinius
     :version_list   => #{@version_list.inspect},
     :default_version => "#{@default_version}",
     :vendor_zlib    => #{@vendor_zlib},
+    :vendor_judy    => #{@vendor_judy},
     :readline       => :#{@rb_readline ? :rb_readline : :c_readline},
     :libyaml        => #{@libyaml}
   }
@@ -1153,6 +1157,12 @@ end
         f.puts %[#define RBX_ZLIB_PATH     "#{@lib_path}/zlib/"]
       else
         f.puts %[#define RBX_ZLIB_PATH     ""]
+      end
+
+      if @vendor_judy
+        f.puts %[#define RBX_JUDY_PATH     "#{@lib_path}/judy/"]
+      else
+        f.puts %[#define RBX_JUDY_PATH     ""]
       end
 
       @supported_versions.each do |ver|
