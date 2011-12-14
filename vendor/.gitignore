@@ -68,3 +68,23 @@ zlib/minigzipsh
 zlib/zconf.h
 zlib/zlib.pc
 
+# judy
+judy/Makefile
+judy/config.*
+judy/libtool
+judy/doc/Makefile
+judy/doc/man/man3
+judy/test/Makefile
+judy/tool/Makefile
+judy/tool/jhton
+judy/src/Makefile
+judy/src/obj/Makefile
+judy/src/JudyCommon/Makefile
+judy/src/Judy1/Makefile
+judy/src/Judy1/Judy1TablesGen
+judy/src/Judy1/*.c
+judy/src/JudyL/Makefile
+judy/src/JudyL/JudyLTablesGen
+judy/src/JudyL/*.c
+judy/src/JudyHS/Makefile
+judy/src/JudySL/Makefile
