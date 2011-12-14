@@ -205,7 +205,7 @@ Daedalus.blueprint do |i|
   if Rubinius::BUILD_CONFIG[:vendor_judy]
     judy = i.external_lib "vendor/judy" do |l|
       l.cflags = ["-Ivendor/judy/src"]
-      l.objects = [l.file("judy/src/obj/.libs/libJudy.a")]
+      l.objects = [l.file("src/obj/.libs/libJudy.a")]
       l.to_build do |x|
         unless File.exists?("Makefile")
           x.command "sh -c ./configure"
